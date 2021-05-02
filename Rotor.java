@@ -29,5 +29,7 @@ public class Rotor {
 	    	break;
 	    }
 	}
-
+	void setRotorPosition (int pos) {
+		position = pos;
+	}
 }
