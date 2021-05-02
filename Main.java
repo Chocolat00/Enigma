@@ -1,3 +1,4 @@
+	
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
@@ -5,6 +6,8 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.Group;
@@ -24,7 +27,7 @@ import javafx.scene.control.ButtonType;
 import javafx.geometry.Pos;
 
 
-public class Main extends Application {
+public class Main extends Application implements EventHandler<ActionEvent> {
 
     Scene scene, scene2;
     Stage stage1;
@@ -33,6 +36,34 @@ public class Main extends Application {
     ComboBox<String> comboBox2;
     ComboBox<String> comboBox3;
     ObservableList <Node> lista;
+    
+    RadioButton firstRotor1;
+    RadioButton firstRotor2;
+    RadioButton firstRotor3;
+    RadioButton firstRotor4;
+    RadioButton firstRotor5;
+    
+    RadioButton secondRotor1;
+    RadioButton secondRotor2;
+    RadioButton secondRotor3;
+    RadioButton secondRotor4;
+    RadioButton secondRotor5;
+    
+    RadioButton thirdRotor1;
+    RadioButton thirdRotor2;
+    RadioButton thirdRotor3;
+    RadioButton thirdRotor4;
+    RadioButton thirdRotor5;
+    
+    int first=0, second=0, third=0;
+    int pos1=0, pos2=0, pos3=0;
+    
+    Rotor rotor1;
+    Rotor rotor2;
+    Rotor rotor3;
+    
+    Label l1;
+    TextArea input;
 
 public int code(String s){
         char c= s.charAt(0);
@@ -56,7 +87,7 @@ public int code(String s){
     @Override
     public void start(Stage stage) {
         stage1 = stage;
-        Scene scene = new Scene(new Group(), 1000, 600);
+        scene = new Scene(new Group(), 920, 600);
         scene.getStylesheets().add("./test.css");
 
         ObservableList<String> options = 
@@ -72,73 +103,89 @@ public int code(String s){
          
         comboBox3 = new ComboBox<String>(options);
 
-        Label l1 =new Label(" CoÅ›");
-//lista etykiet
-lista = FXCollections.observableArrayList();
+        l1 =new Label(" Coœ");
+        l1.setPrefWidth(400);
+        //lista etykiet
+        lista = FXCollections.observableArrayList();
         for(int i=0; i<26; i++){
             lista.add(new Label (options.get(i)));
         }
 
 
-//Tworzenie menu
-    Menu menu = new Menu("Menu");
-    //Dodanie pozycji menu
-    menu.getItems().add(new MenuItem("Wczytaj z pliku"));
-    menu.getItems().add(new MenuItem("Zapisz"));
-    menu.getItems().add(new MenuItem("Reset"));
-    menu.getItems().add(new MenuItem("English"));
-    //Dodanie do paska
-    MenuBar menuBar = new MenuBar();
-    menuBar.getMenus().add(menu);
+        //Tworzenie menu
+        Menu menu = new Menu("Menu");
+        //Dodanie pozycji menu
+        menu.getItems().add(new MenuItem("Wczytaj z pliku"));
+        menu.getItems().add(new MenuItem("Zapisz"));
+        menu.getItems().add(new MenuItem("Reset"));
+        menu.getItems().add(new MenuItem("English"));
+        //Dodanie do paska
+        MenuBar menuBar = new MenuBar();
+        menuBar.getMenus().add(menu);
 
-    final ToggleGroup group = new ToggleGroup();
-    RadioButton firstRotor1 = new RadioButton("I");
-    firstRotor1.setToggleGroup(group);
-    firstRotor1.setSelected(true);
-    RadioButton firstRotor2 = new RadioButton("II");
-    firstRotor2.setToggleGroup(group);
-    RadioButton firstRotor3 = new RadioButton("III");
-    firstRotor3.setToggleGroup(group);
-    RadioButton firstRotor4 = new RadioButton("IV");
-    firstRotor4.setToggleGroup(group);
-    RadioButton firstRotor5 = new RadioButton("V");
-    firstRotor5.setToggleGroup(group);
+        final ToggleGroup group = new ToggleGroup();
+        firstRotor1 = new RadioButton("I");
+        firstRotor1.setOnAction(this);
+        firstRotor1.setToggleGroup(group);
+        firstRotor1.setSelected(true);
+        firstRotor2 = new RadioButton("II");
+        firstRotor2.setOnAction(this);
+        firstRotor2.setToggleGroup(group);
+        firstRotor3 = new RadioButton("III");
+        firstRotor3.setOnAction(this);
+        firstRotor3.setToggleGroup(group);
+        firstRotor4 = new RadioButton("IV");
+        firstRotor4.setOnAction(this);
+        firstRotor4.setToggleGroup(group);
+        firstRotor5 = new RadioButton("V");
+        firstRotor5.setOnAction(this);
+        firstRotor5.setToggleGroup(group);
    	 
-    final ToggleGroup group2 = new ToggleGroup();
-    RadioButton secondRotor1 = new RadioButton("I");
-    secondRotor1.setToggleGroup(group2);
-    secondRotor1.setSelected(true);
-    RadioButton secondRotor2 = new RadioButton("II");
-    secondRotor2.setToggleGroup(group2);
-    RadioButton secondRotor3 = new RadioButton("III");
-    secondRotor3.setToggleGroup(group2);
-    RadioButton secondRotor4 = new RadioButton("IV");
-    secondRotor4.setToggleGroup(group2);
-    RadioButton secondRotor5 = new RadioButton("V");
-    secondRotor5.setToggleGroup(group2);
+        final ToggleGroup group2 = new ToggleGroup();
+        secondRotor1 = new RadioButton("I");
+        secondRotor1.setOnAction(this);
+        secondRotor1.setToggleGroup(group2);
+        secondRotor1.setSelected(true);
+        secondRotor2 = new RadioButton("II");
+        secondRotor2.setOnAction(this);
+        secondRotor2.setToggleGroup(group2);
+        secondRotor3 = new RadioButton("III");
+        secondRotor3.setOnAction(this);
+        secondRotor3.setToggleGroup(group2);
+        secondRotor4 = new RadioButton("IV");
+        secondRotor4.setOnAction(this);
+        secondRotor4.setToggleGroup(group2);
+        secondRotor5 = new RadioButton("V");
+        secondRotor5.setOnAction(this);
+        secondRotor5.setToggleGroup(group2);
    	 
-    final ToggleGroup group3 = new ToggleGroup();
-    RadioButton thirdRotor1 = new RadioButton("I");
-    thirdRotor1.setToggleGroup(group3);
-    thirdRotor1.setSelected(true);
-    RadioButton thirdRotor2 = new RadioButton("II");
-    thirdRotor2.setToggleGroup(group3);
-    RadioButton thirdRotor3 = new RadioButton("III");
-    thirdRotor3.setToggleGroup(group3);
-    RadioButton thirdRotor4 = new RadioButton("IV");
-    thirdRotor4.setToggleGroup(group3);
-    RadioButton thirdRotor5 = new RadioButton("V");
-    thirdRotor5.setToggleGroup(group3);
+        final ToggleGroup group3 = new ToggleGroup();
+        thirdRotor1 = new RadioButton("I");
+        thirdRotor1.setOnAction(this);
+        thirdRotor1.setToggleGroup(group3);
+        thirdRotor1.setSelected(true);
+        thirdRotor2 = new RadioButton("II");
+        thirdRotor2.setOnAction(this);
+        thirdRotor2.setToggleGroup(group3);
+        thirdRotor3 = new RadioButton("III");
+        thirdRotor3.setOnAction(this);
+        thirdRotor3.setToggleGroup(group3);
+        thirdRotor4 = new RadioButton("IV");
+        thirdRotor4.setOnAction(this);
+        thirdRotor4.setToggleGroup(group3);
+        thirdRotor5 = new RadioButton("V");
+        thirdRotor5.setOnAction(this);
+        thirdRotor5.setToggleGroup(group3);
 
-    Button button = new Button("ÅÄ…cznica kablowa");
-button.setOnAction(e->stage.setScene(scene2));
-    	StackPane layout = new StackPane();
-    	Button button2 = new Button("PowrÃ³t");
-    	button2.setOnAction(e->stage.setScene(scene));
-    	layout.getChildren().add(button2);
+    	Button button = new Button("£¹cznica kablowa");
+    	button.setOnAction(e->stage.setScene(scene2));
+    	CablePane layout = new CablePane(200, 200);
     	scene2=new Scene(layout, 200, 200);
+    	
+    	Button button2 = new Button("ZatwierdŸ wirniki");
+    	button2.setOnAction(e->validateRotors());
 
-      GridPane masterGrid =new GridPane();
+    	GridPane masterGrid =new GridPane();
         GridPane grid =new GridPane();
         grid.setPadding(new Insets(10,10,10,10));
         GridPane grid1 =new GridPane();
@@ -148,16 +195,16 @@ button.setOnAction(e->stage.setScene(scene2));
         GridPane gridKey = new GridPane();
         GridPane gridRotors = new GridPane();
         GridPane gridFirstRotor = new GridPane();
-    gridFirstRotor.setPadding(new Insets(10,10,10,10));
-    GridPane gridSecondRotor = new GridPane();
-    gridSecondRotor.setPadding(new Insets(10,10,10,10));
-    GridPane gridThirdRotor = new GridPane();
-    gridThirdRotor.setPadding(new Insets(10,10,10,10));
+        gridFirstRotor.setPadding(new Insets(10,10,10,10));
+    	GridPane gridSecondRotor = new GridPane();
+    	gridSecondRotor.setPadding(new Insets(10,10,10,10));
+    	GridPane gridThirdRotor = new GridPane();
+    	gridThirdRotor.setPadding(new Insets(10,10,10,10));
         FlowPane keyTop =new FlowPane();
         FlowPane keyMiddle = new FlowPane();
         FlowPane keyBottom =new FlowPane();
    
-masterGrid.add(menuBar, 0, 0);
+        masterGrid.add(menuBar, 0, 0);
     	masterGrid.add(grid, 0, 1);
         grid.add(grid1, 0, 0);
         grid.add(grid2, 1, 0);
@@ -167,9 +214,9 @@ masterGrid.add(menuBar, 0, 0);
         grid1.add(gridRotors, 0, 3);
         gridKey.setPrefSize(450, 180);
 
-        TextArea input =new TextArea();
+        input =new TextArea();
         input.setPromptText("Tu wpisz tekst");
-        input.setPrefWidth(200);
+        input.setPrefWidth(400);
         input.setPrefHeight(300);
         input.getStyleClass().add("text-input");
         grid2.add(input, 0, 0);
@@ -248,34 +295,112 @@ masterGrid.add(menuBar, 0, 0);
     	gridRotors.add(gridSecondRotor, 1, 1);
     	gridRotors.add(new Label("Wirnik 3"), 2, 0);
     	gridRotors.add(gridThirdRotor, 2, 1);
-	gridRotors.add(button, 0, 2);
+    	gridRotors.add(button, 0, 2);
+    	gridRotors.add(button2, 1, 2);
 
-        gridAnimation.add(new Label("Tu bÄ™dÄ… animacje"), 0, 0);
+        gridAnimation.add(new Label("Tu bêd¹ animacje"), 0, 0);
 
-stage.setOnCloseRequest(e->{
+        stage.setOnCloseRequest(e->{
    		 e.consume();
    		 closeProgram();
     	});
        
         Group root = (Group)scene.getRoot();
-        root.getChildren().add(grid);
+        root.getChildren().add(masterGrid);
         stage.setScene(scene);
         stage.setTitle("Enigma");
         stage.show();
     }
    private void closeProgram() {
-   	 Alert alert = new Alert(AlertType.CONFIRMATION, "Czy na pewno chcesz zamknÄ…Ä‡ okno?", ButtonType.YES, ButtonType.NO);
+   	 Alert alert = new Alert(AlertType.CONFIRMATION, "Czy na pewno chcesz zamkn¹æ okno?", ButtonType.YES, ButtonType.NO);
    	 alert.showAndWait();
 
    	 if (alert.getResult() == ButtonType.YES) {
    	 	stage1.close();
    	 }
-    }
-
+   }
+   
+	@Override
+	public void handle(ActionEvent event) {
+		if (event.getSource()==firstRotor1) {
+			first=0;
+		}
+		if (event.getSource()==firstRotor2) {
+			first=1;
+		}
+		if (event.getSource()==firstRotor3) {
+			first=2;
+		}
+		if (event.getSource()==firstRotor4) {
+			first=3;
+		}
+		if (event.getSource()==firstRotor5) {
+			first=4;
+		}
+		
+		if (event.getSource()==secondRotor1) {
+			second=0;
+		}
+		if (event.getSource()==secondRotor2) {
+			second=1;
+		}
+		if (event.getSource()==secondRotor3) {
+			second=2;
+		}
+		if (event.getSource()==secondRotor4) {
+			second=3;
+		}
+		if (event.getSource()==secondRotor5) {
+			second=4;
+		}
+		
+		if (event.getSource()==thirdRotor1) {
+			third=0;
+		}
+		if (event.getSource()==thirdRotor2) {
+			third=1;
+		}
+		if (event.getSource()==thirdRotor3) {
+			third=2;
+		}
+		if (event.getSource()==thirdRotor4) {
+			third=3;
+		}
+		if (event.getSource()==thirdRotor5) {
+			third=4;
+		}
+	}
+   
+   void chooseRotors() {
+	   if (first!=second && second!=third && third!=first) {
+		   rotor1 = new Rotor(first, 0);
+		   rotor2 = new Rotor(second, 1);
+		   rotor3 = new Rotor(third, 2);
+		   l1.setText("Ustawienie wirników przebieg³o prawid³owo.");
+	   }
+	   else {
+		   l1.setText("Conajmniej dwa wybrane wirniki s¹ takie same. Nie mo¿na rozpocz¹æ.");
+	   }
+   }
+   void setRotorPositions () {
+	   if (rotor1!=null && rotor2!=null && rotor3!=null) {
+		   rotor1.setRotorPosition(pos1);
+		   rotor2.setRotorPosition(pos2);
+		   rotor2.setRotorPosition(pos3);
+		   l1.setText(l1.getText()+"\nUstawiono pozycje wirników.");
+	   }
+	   else {
+		   l1.setText(l1.getText()+"\nNie ustawiono pozycji wirników.");
+	   }
+   }
+   
+   void validateRotors () {
+	   chooseRotors();
+	   setRotorPositions();
+   }
 
     public static void main(String[] args) {
         launch();
     }
 
 }
-
