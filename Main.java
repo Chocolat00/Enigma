@@ -75,13 +75,13 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) {
         stage1 = stage;
-        scene = new Scene(new Group(), 920, 600);
+        scene = new Scene(new Group(), 880, 600);
         //scene.getStylesheets().add("./test.css");
 
         ObservableList<String> options = 
         FXCollections.observableArrayList();
-        for(int i=0; i<26; i++){
-            int num =65+i;
+        for(int ii=0; ii<26; ii++){
+            int num =65+ii;
             String str=Character.toString((char)num);
             options.add(str);
         }
@@ -363,7 +363,7 @@ public class Main extends Application {
 		   l1.setText("Ustawienie wirników przebielgo prawidłowo.\n");
 	   }
 	   else {
-		   l1.setText("Conajmniej dwa wybrane wirniki są takie same. Nie można rozpocząć.");
+		   l1.setText("Conajmniej dwa wybrane wirniki są takie same. Nie można rozpocząć.\n");
 	   }
    }
    void setRotorPositions () {
@@ -371,10 +371,10 @@ public class Main extends Application {
 		   rotor1.setRotorPosition(pos1);
 		   rotor2.setRotorPosition(pos2);
 		   rotor3.setRotorPosition(pos3);
-		   l1.setText(l1.getText()+"\nPozycja startowa wirników: "+pos1+" "+pos2+" "+pos3);
+		   l1.setText(l1.getText()+"\nPozycja startowa wirników: "+pos1+" "+pos2+" "+pos3+"\n");
 	   }
 	   else {
-		   l1.setText(l1.getText()+"\nNie ustawiono pozycji wirników. Nie można rozpocząć.");
+		   l1.setText(l1.getText()+"Nie ustawiono pozycji wirników. Nie można rozpocząć.\n");
 	   }
    }
    
@@ -443,7 +443,7 @@ public class Main extends Application {
 		   value = rotor2.returnValueBackward(value);
 		   value = rotor3.returnValueBackward(value);
 		   String code = numberToLetter(value);
-		   System.out.print(code);
+		   l1.setText(l1.getText()+code);
 		   rotateRotors();
 	   }
    }
