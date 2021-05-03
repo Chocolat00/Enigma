@@ -28,7 +28,7 @@ import javafx.scene.control.ButtonType;
 import javafx.geometry.Pos;
 
 
-public class Main extends Application implements EventHandler<ActionEvent> {
+public class Main extends Application {
 
     Scene scene, scene2;
     Stage stage1;
@@ -123,68 +123,68 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 
         final ToggleGroup group = new ToggleGroup();
         firstRotor1 = new RadioButton("I");
-        firstRotor1.setOnAction(this);
+        firstRotor1.setOnAction(e->first=0);
         firstRotor1.setToggleGroup(group);
         firstRotor1.setSelected(true);
         firstRotor2 = new RadioButton("II");
-        firstRotor2.setOnAction(this);
+        firstRotor2.setOnAction(e->first=1);
         firstRotor2.setToggleGroup(group);
         firstRotor3 = new RadioButton("III");
-        firstRotor3.setOnAction(this);
+        firstRotor3.setOnAction(e->first=2);
         firstRotor3.setToggleGroup(group);
         firstRotor4 = new RadioButton("IV");
-        firstRotor4.setOnAction(this);
+        firstRotor4.setOnAction(e->first=3);
         firstRotor4.setToggleGroup(group);
         firstRotor5 = new RadioButton("V");
-        firstRotor5.setOnAction(this);
+        firstRotor5.setOnAction(e->first=4);
         firstRotor5.setToggleGroup(group);
    	 
         final ToggleGroup group2 = new ToggleGroup();
         secondRotor1 = new RadioButton("I");
-        secondRotor1.setOnAction(this);
+        secondRotor1.setOnAction(e->second=0);
         secondRotor1.setToggleGroup(group2);
         secondRotor1.setSelected(true);
         secondRotor2 = new RadioButton("II");
-        secondRotor2.setOnAction(this);
+        secondRotor2.setOnAction(e->second=1);
         secondRotor2.setToggleGroup(group2);
         secondRotor3 = new RadioButton("III");
-        secondRotor3.setOnAction(this);
+        secondRotor3.setOnAction(e->second=2);
         secondRotor3.setToggleGroup(group2);
         secondRotor4 = new RadioButton("IV");
-        secondRotor4.setOnAction(this);
+        secondRotor4.setOnAction(e->second=3);
         secondRotor4.setToggleGroup(group2);
         secondRotor5 = new RadioButton("V");
-        secondRotor5.setOnAction(this);
+        secondRotor5.setOnAction(e->second=4);
         secondRotor5.setToggleGroup(group2);
    	 
         final ToggleGroup group3 = new ToggleGroup();
         thirdRotor1 = new RadioButton("I");
-        thirdRotor1.setOnAction(this);
+        thirdRotor1.setOnAction(e->third=0);
         thirdRotor1.setToggleGroup(group3);
         thirdRotor1.setSelected(true);
         thirdRotor2 = new RadioButton("II");
-        thirdRotor2.setOnAction(this);
+        thirdRotor2.setOnAction(e->third=1);
         thirdRotor2.setToggleGroup(group3);
         thirdRotor3 = new RadioButton("III");
-        thirdRotor3.setOnAction(this);
+        thirdRotor3.setOnAction(e->third=2);
         thirdRotor3.setToggleGroup(group3);
         thirdRotor4 = new RadioButton("IV");
-        thirdRotor4.setOnAction(this);
+        thirdRotor4.setOnAction(e->third=3);
         thirdRotor4.setToggleGroup(group3);
         thirdRotor5 = new RadioButton("V");
-        thirdRotor5.setOnAction(this);
+        thirdRotor5.setOnAction(e->third=4);
         thirdRotor5.setToggleGroup(group3);
         
         final ToggleGroup group4 = new ToggleGroup();
         reflector1 = new RadioButton("B");
-        reflector1.setOnAction(this);
+        reflector1.setOnAction(e->ref=0);
         reflector1.setToggleGroup(group4);
         reflector1.setSelected(true);
         reflector2 = new RadioButton("C");
-        reflector2.setOnAction(this);
+        reflector2.setOnAction(e->ref=1);
         reflector2.setToggleGroup(group4);
 
-    	Button button = new Button("Łcznica kablowa");
+    	Button button = new Button("Łącznica kablowa");
     	button.setOnAction(e->stage.setScene(scene2));
     	CablePane layout = new CablePane(100, 100);
 
@@ -339,65 +339,7 @@ public class Main extends Application implements EventHandler<ActionEvent> {
    	 	stage1.close();
    	 }
    }
-   
-	@Override
-	public void handle(ActionEvent event) {
-		if (event.getSource()==firstRotor1) {
-			first=0;
-		}
-		if (event.getSource()==firstRotor2) {
-			first=1;
-		}
-		if (event.getSource()==firstRotor3) {
-			first=2;
-		}
-		if (event.getSource()==firstRotor4) {
-			first=3;
-		}
-		if (event.getSource()==firstRotor5) {
-			first=4;
-		}
-		
-		if (event.getSource()==secondRotor1) {
-			second=0;
-		}
-		if (event.getSource()==secondRotor2) {
-			second=1;
-		}
-		if (event.getSource()==secondRotor3) {
-			second=2;
-		}
-		if (event.getSource()==secondRotor4) {
-			second=3;
-		}
-		if (event.getSource()==secondRotor5) {
-			second=4;
-		}
-		
-		if (event.getSource()==thirdRotor1) {
-			third=0;
-		}
-		if (event.getSource()==thirdRotor2) {
-			third=1;
-		}
-		if (event.getSource()==thirdRotor3) {
-			third=2;
-		}
-		if (event.getSource()==thirdRotor4) {
-			third=3;
-		}
-		if (event.getSource()==thirdRotor5) {
-			third=4;
-		}
-		
-		if (event.getSource()==reflector1) {
-			ref=0;
-		}
-		if (event.getSource()==reflector2) {
-			ref=1;
-		}
-	}
-   
+
    void chooseRotors() {
 	   if (first!=second && second!=third && third!=first) {
 		   rotor1 = new Rotor(first);
