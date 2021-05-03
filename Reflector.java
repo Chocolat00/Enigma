@@ -1,5 +1,6 @@
 package application;
 
+//Autor: Katarzyna Stojek
 public class Reflector {
 	private int[][] connections;
 	private int reflectorName;
