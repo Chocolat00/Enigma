@@ -1,35 +1,72 @@
 
+package application;
+
 public class Rotor {
-	int[][] connections;
-	int position = 0;
-	int rotorNumber;
-	int rotorPlace;
+	String encoding;
+	protected int[] forwardWiring;
+    protected int[] backwardWiring;
+	private int position = 0;
+	private int rotorNumber;
 	
-	public Rotor (int n, int place) {
-		rotorNumber = n;
-		rotorPlace = place;
-		
+	public Rotor (int n) {
+		rotorNumber = n;		
 		switch(rotorNumber) {
-		// 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25
-	    	// A B C D E F G H I J  K  L  M  N  O  P  Q  R  S  T  U  V  W  X  Y  Z
 	    case 0:
-	    	connections = new int[][] {{0,4}, {1,10}, {2,12}, {3,5}, {4,11}, {5,6}, {6,3}, {7,16}, {8,21}, {9,25}, {10,13}, {11,19}, {12,14}, {13,22}, {14,24}, {15,7}, {16,23}, {17,20}, {18,18}, {19,15}, {20,0}, {21,8}, {22,1}, {23,17}, {24,2}, {25,9}};  
+	    	encoding = "EKMFLGDQVZNTOWYHXUSPAIBRCJ";
 	    	break;
 	    case 1:
-	    	connections = new int[][] {{0,0}, {1,9}, {2,3}, {3,10}, {4,18}, {5,8}, {6,17}, {7,20}, {8,23}, {9,1}, {10,11}, {11,7}, {12,22}, {13,19}, {14,12}, {15,2}, {16,16}, {17,6}, {18,25}, {19,13}, {20,15}, {21,24}, {22,5}, {23,21}, {24,14}, {25,4}}; 
+	    	encoding = "AJDKSIRUXBLHWTMCQGZNPYFVOE";
 	    	break;
 	    case 2:
-	    	connections = new int[][] {{0,1}, {1,3}, {2,5}, {3,7}, {4,9}, {5,11}, {6,2}, {7,15}, {8,17}, {9,19}, {10,23}, {11,21}, {12,25}, {13,13}, {14,24}, {15,4}, {16,8}, {17,22}, {18,6}, {19,0}, {20,10}, {21,12}, {22,20}, {23,18}, {24,16}, {25,14}}; 
+	    	encoding = "BDFHJLCPRTXVZNYEIWGAKMUSQO";
 	    	break;
 	    case 3:
-	    	connections = new int[][] {{0,4}, {1,18}, {2,14}, {3,21}, {4,15}, {5,25}, {6,9}, {7,0}, {8,24}, {9,16}, {10,20}, {11,8}, {12,17}, {13,7}, {14,23}, {15,11}, {16,13}, {17,5}, {18,19}, {19,6}, {20,10}, {21,3}, {22,2}, {23,12}, {24,22}, {25,1}}; 
+	    	encoding = "ESOVPZJAYQUIRHXLNFTGKDCMWB";
 	    	break;
 	    case 4:
-	    	connections = new int[][] {{0,21}, {1,25}, {2,1}, {3,17}, {4,6}, {5,8}, {6,19}, {7,24}, {8,20}, {9,15}, {10,18}, {11,3}, {12,13}, {13,7}, {14,11}, {15,23}, {16,0}, {17,22}, {18,12}, {19,9}, {20,16}, {21,14}, {22,5}, {23,4}, {24,2}, {25,10}}; 
+	    	encoding = "VZBRGITYUPSDNHLXAWMJQOFECK";
 	    	break;
 	    }
+		
+		this.forwardWiring = decodeWiring(encoding);
+        this.backwardWiring = inverseWiring(this.forwardWiring);
 	}
+	
+	protected static int[] decodeWiring(String encoding) {
+        char[] charWiring = encoding.toCharArray();
+        int[] wiring = new int[charWiring.length];
+        for (int i = 0; i < charWiring.length; i++) {
+            wiring[i] = charWiring[i] - 65;
+        }
+        return wiring;
+    }
+	
+	protected static int[] inverseWiring(int[] wiring) {
+        int[] inverse = new int[wiring.length];
+        for (int i = 0; i < wiring.length; i++) {
+            int forward = wiring[i];
+            inverse[forward] = i;
+        }
+        return inverse;
+    }
+	
 	void setRotorPosition (int pos) {
 		position = pos;
 	}
+	
+	int getRotorPosition () {
+		return position;
+	}
+	
+	protected static int code(int k, int pos, int[] wiring) {
+        return (wiring[(k + pos) % 26] - pos + 26) % 26;
+    }
+
+    public int returnValueForward(int input) {
+        return code(input, this.position, this.forwardWiring);
+    }
+
+    public int returnValueBackward(int input) {
+        return code(input, this.position, this.backwardWiring);
+    }
 }
