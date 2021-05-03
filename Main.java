@@ -109,14 +109,29 @@ public class Main extends Application {
             lista.add(new Label (options.get(i)));
         }
 
-
         //Tworzenie menu
         Menu menu = new Menu("Menu");
         //Dodanie pozycji menu
-        menu.getItems().add(new MenuItem("Wczytaj z pliku"));
-        menu.getItems().add(new MenuItem("Zapisz"));
-        menu.getItems().add(new MenuItem("Reset"));
-        menu.getItems().add(new MenuItem("English"));
+        MenuItem menuItem1 = new MenuItem("Wczytaj z pliku");
+        MenuItem menuItem2 = new MenuItem("Zapisz");
+        MenuItem menuItem3 = new MenuItem("Reset");
+        menuItem3.setOnAction(e->{
+        	firstRotor1.setSelected(true);
+        	secondRotor1.setSelected(true);
+        	thirdRotor1.setSelected(true);
+        	reflector1.setSelected(true);
+        	comboBox1.getSelectionModel().selectFirst();
+        	comboBox2.getSelectionModel().selectFirst();
+        	comboBox3.getSelectionModel().selectFirst();
+        	input.setText("");
+        	input.setPromptText("Tu wpisz tekst");
+        	l1.setText("Wybierz i zatwierdź ustawienia Enigmy aby rozpocząć.");
+        });
+        MenuItem menuItem4 = new MenuItem("English");
+        menu.getItems().add(menuItem1);
+        menu.getItems().add(menuItem2);
+        menu.getItems().add(menuItem3);
+        menu.getItems().add(menuItem4);
         //Dodanie do paska
         MenuBar menuBar = new MenuBar();
         menuBar.getMenus().add(menu);
@@ -285,7 +300,6 @@ public class Main extends Application {
         keyBottom.getChildren().add(lista.get(13));
         keyBottom.getChildren().add(lista.get(12));
 
-
         gridFirstRotor.add(firstRotor1, 0, 0);
     	gridFirstRotor.add(firstRotor2, 1, 0);
     	gridFirstRotor.add(firstRotor3, 2, 0);
@@ -367,23 +381,19 @@ public class Main extends Application {
    public int letterToNumber (String s){
        char c= s.charAt(0);
        int num = c;
-
        if(num>64 && num<91){
-           num = num-65;
-           
+           num = num-65;      
        }
        if(num>96 && num<123){
            num= num-97;
-           
        }
        return num;
    }
    
    public String numberToLetter (int n) {
-	   n=n+65;
-	   String s = Character.toString((char) n);
-	   
-       return s;
+	n=n+65;
+	String s = Character.toString((char) n);
+        return s;
    }
    
    void validateRotors () {
