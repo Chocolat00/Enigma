@@ -58,7 +58,7 @@ public class Rotor {
 	}
 	
 	protected static int code(int k, int pos, int[] wiring) {
-        return (wiring[(k + pos + 26) % 26] - pos + 26) % 26;
+        return (wiring[(k + pos) % 26] - pos + 26) % 26;
     }
 
     public int returnValueForward(int input) {
