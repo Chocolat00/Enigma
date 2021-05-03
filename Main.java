@@ -133,6 +133,7 @@ lista = FXCollections.observableArrayList();
     Button button = new Button("Łącznica kablowa");
 button.setOnAction(e->stage.setScene(scene2));
     	CablePane layout = new CablePane(200, 200);
+	layout.back.setOnAction(e->stage.setScene(scene));
     	scene2=new Scene(layout, 200, 200);
 
       GridPane masterGrid =new GridPane();

@@ -19,6 +19,7 @@ public class CablePane extends Pane {
     ComboBox<String> comboBox4;
     ComboBox<String> comboBox5;
     ComboBox<String> comboBox6;
+    Button back = new Button("Powrót");
     ObservableList<String> options =
             FXCollections.observableArrayList();
 
@@ -65,6 +66,8 @@ public class CablePane extends Pane {
         GridPane grid1 = new GridPane();
         GridPane grid2 = new GridPane();
         GridPane grid3 = new GridPane();
+        GridPane buttonPane = new GridPane();
+        
         grid1.add(comboBox1, 0, 0);
         grid1.add(comboBox2, 1, 0);
 
@@ -73,6 +76,9 @@ public class CablePane extends Pane {
 
         grid3.add(comboBox5, 0, 0);
         grid3.add(comboBox6, 1, 0);
+        
+        buttonPane.add(check, 0, 0);
+        buttonPane.add(back, 1, 0);
 
         mastergrid.add(label1, 0, 0);
         mastergrid.add(grid1, 0, 1);
@@ -80,7 +86,7 @@ public class CablePane extends Pane {
         mastergrid.add(grid2, 0, 3);
         mastergrid.add(label3, 0, 4);
         mastergrid.add(grid3, 0, 5);
-        mastergrid.add(check, 0, 6);
+        mastergrid.add(buttonPane, 0, 6);
         this.getChildren().add(mastergrid);
 
 
