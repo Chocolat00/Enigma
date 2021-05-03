@@ -308,15 +308,15 @@ public class Main extends Application implements EventHandler<ActionEvent> {
     	gridReflector.add(reflector2, 1, 0);
    	 
     	gridRotors.add(new Label("Wirnik 1"), 0, 0);
-    	gridRotors.add(gridFirstRotor, 0, 1);
-    	gridRotors.add(new Label("Wirnik 2"), 1, 0);
-    	gridRotors.add(gridSecondRotor, 1, 1);
-    	gridRotors.add(new Label("Wirnik 3"), 2, 0);
-    	gridRotors.add(gridThirdRotor, 2, 1);
-    	gridRotors.add(new Label("Reflektor"), 0, 2);
-    	gridRotors.add(gridReflector, 0, 3);
-    	gridRotors.add(button, 2, 3);
-    	gridRotors.add(button2, 1, 3);
+        gridRotors.add(gridFirstRotor, 0, 1);
+        gridRotors.add(new Label("Wirnik 2"), 0, 2);
+        gridRotors.add(gridSecondRotor, 0, 3);
+        gridRotors.add(new Label("Wirnik 3"), 0, 4);
+        gridRotors.add(gridThirdRotor, 0, 5);
+        gridRotors.add(new Label("Reflektor"), 1, 0);
+        gridRotors.add(gridReflector, 1, 1);
+        gridRotors.add(button, 1, 2);
+        gridRotors.add(button2, 2, 2);
 
         gridAnimation.add(new Label("Tu będą animacje"), 0, 0);
 
