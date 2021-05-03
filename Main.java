@@ -1,3 +1,5 @@
+package application;
+	
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
@@ -54,40 +56,27 @@ public class Main extends Application implements EventHandler<ActionEvent> {
     RadioButton thirdRotor4;
     RadioButton thirdRotor5;
     
+    RadioButton reflector1;
+    RadioButton reflector2;
+    
     int first=0, second=0, third=0;
     int pos1=0, pos2=0, pos3=0;
+    int ref=0;
     
     Rotor rotor1;
     Rotor rotor2;
     Rotor rotor3;
     
+    Reflector reflector;
+    
     Label l1;
     TextArea input;
-
-public int code(String s){
-        char c= s.charAt(0);
-        int num = c;
-
-        if(num>64 && num<91){
-            num = num-65;
-            
-        }
-        if(num>96 && num<123){
-            num= num-97;
-            
-        }
-        return num;
-    }
-    
-
-    
-
 
     @Override
     public void start(Stage stage) {
         stage1 = stage;
         scene = new Scene(new Group(), 920, 600);
-        scene.getStylesheets().add("./test.css");
+        //scene.getStylesheets().add("./test.css");
 
         ObservableList<String> options = 
         FXCollections.observableArrayList();
@@ -97,12 +86,22 @@ public int code(String s){
             options.add(str);
         }
         comboBox1 = new ComboBox<String>(options);
-
+        comboBox1.getSelectionModel().selectFirst();
+        comboBox1.setOnAction(e->{
+        	pos1 = comboBox1.getSelectionModel().getSelectedIndex();
+        });
         comboBox2 = new ComboBox<String>(options);
-         
+        comboBox2.getSelectionModel().selectFirst();
+        comboBox2.setOnAction(e->{
+        	pos2 = comboBox2.getSelectionModel().getSelectedIndex();
+        });
         comboBox3 = new ComboBox<String>(options);
+        comboBox3.getSelectionModel().selectFirst();
+        comboBox3.setOnAction(e->{
+        	pos3 = comboBox3.getSelectionModel().getSelectedIndex();
+        });
 
-        l1 =new Label(" Coœ");
+        l1 =new Label("Wybierz i zatwierdŸ ustawienia Enigmy aby rozpocz¹æ.");
         l1.setPrefWidth(400);
         //lista etykiet
         lista = FXCollections.observableArrayList();
@@ -175,6 +174,15 @@ public int code(String s){
         thirdRotor5 = new RadioButton("V");
         thirdRotor5.setOnAction(this);
         thirdRotor5.setToggleGroup(group3);
+        
+        final ToggleGroup group4 = new ToggleGroup();
+        reflector1 = new RadioButton("B");
+        reflector1.setOnAction(this);
+        reflector1.setToggleGroup(group4);
+        reflector1.setSelected(true);
+        reflector2 = new RadioButton("C");
+        reflector2.setOnAction(this);
+        reflector2.setToggleGroup(group4);
 
     	Button button = new Button("£¹cznica kablowa");
     	button.setOnAction(e->stage.setScene(scene2));
@@ -199,6 +207,8 @@ public int code(String s){
     	gridSecondRotor.setPadding(new Insets(10,10,10,10));
     	GridPane gridThirdRotor = new GridPane();
     	gridThirdRotor.setPadding(new Insets(10,10,10,10));
+    	GridPane gridReflector = new GridPane();
+    	gridReflector.setPadding(new Insets(10,10,10,10));
         FlowPane keyTop =new FlowPane();
         FlowPane keyMiddle = new FlowPane();
         FlowPane keyBottom =new FlowPane();
@@ -215,6 +225,10 @@ public int code(String s){
 
         input =new TextArea();
         input.setPromptText("Tu wpisz tekst");
+        input.setOnKeyTyped(e->{
+        	int letter = letterToNumber(e.getCharacter());
+        	runEnigma(letter);
+        });
         input.setPrefWidth(400);
         input.setPrefHeight(300);
         input.getStyleClass().add("text-input");
@@ -287,6 +301,9 @@ public int code(String s){
     	gridThirdRotor.add(thirdRotor3, 2, 0);
     	gridThirdRotor.add(thirdRotor4, 3, 0);
     	gridThirdRotor.add(thirdRotor5, 4, 0);
+    	
+    	gridReflector.add(reflector1, 0, 0);
+    	gridReflector.add(reflector2, 1, 0);
    	 
     	gridRotors.add(new Label("Wirnik 1"), 0, 0);
     	gridRotors.add(gridFirstRotor, 0, 1);
@@ -294,8 +311,10 @@ public int code(String s){
     	gridRotors.add(gridSecondRotor, 1, 1);
     	gridRotors.add(new Label("Wirnik 3"), 2, 0);
     	gridRotors.add(gridThirdRotor, 2, 1);
-    	gridRotors.add(button, 0, 2);
-    	gridRotors.add(button2, 1, 2);
+    	gridRotors.add(new Label("Reflektor"), 0, 2);
+    	gridRotors.add(gridReflector, 0, 3);
+    	gridRotors.add(button, 2, 3);
+    	gridRotors.add(button2, 1, 3);
 
         gridAnimation.add(new Label("Tu bêd¹ animacje"), 0, 0);
 
@@ -368,14 +387,22 @@ public int code(String s){
 		if (event.getSource()==thirdRotor5) {
 			third=4;
 		}
+		
+		if (event.getSource()==reflector1) {
+			ref=0;
+		}
+		if (event.getSource()==reflector2) {
+			ref=1;
+		}
 	}
    
    void chooseRotors() {
 	   if (first!=second && second!=third && third!=first) {
-		   rotor1 = new Rotor(first, 0);
-		   rotor2 = new Rotor(second, 1);
-		   rotor3 = new Rotor(third, 2);
-		   l1.setText("Ustawienie wirników przebieg³o prawid³owo.");
+		   rotor1 = new Rotor(first);
+		   rotor2 = new Rotor(second);
+		   rotor3 = new Rotor(third);
+		   reflector = new Reflector(ref);
+		   l1.setText("Ustawienie wirników przebieg³o prawid³owo.\n");
 	   }
 	   else {
 		   l1.setText("Conajmniej dwa wybrane wirniki s¹ takie same. Nie mo¿na rozpocz¹æ.");
@@ -385,17 +412,86 @@ public int code(String s){
 	   if (rotor1!=null && rotor2!=null && rotor3!=null) {
 		   rotor1.setRotorPosition(pos1);
 		   rotor2.setRotorPosition(pos2);
-		   rotor2.setRotorPosition(pos3);
-		   l1.setText(l1.getText()+"\nUstawiono pozycje wirników.");
+		   rotor3.setRotorPosition(pos3);
+		   l1.setText(l1.getText()+"\nPozycja startowa wirników: "+pos1+" "+pos2+" "+pos3);
 	   }
 	   else {
-		   l1.setText(l1.getText()+"\nNie ustawiono pozycji wirników.");
+		   l1.setText(l1.getText()+"\nNie ustawiono pozycji wirników. Nie mo¿na rozpocz¹æ.");
 	   }
+   }
+   
+   public int letterToNumber (String s){
+       char c= s.charAt(0);
+       int num = c;
+
+       if(num>64 && num<91){
+           num = num-65;
+           
+       }
+       if(num>96 && num<123){
+           num= num-97;
+           
+       }
+       return num;
+   }
+   
+   public String numberToLetter (int n) {
+	   n=n+65;
+	   String s = Character.toString((char) n);
+	   
+       return s;
    }
    
    void validateRotors () {
 	   chooseRotors();
 	   setRotorPositions();
+   }
+   
+   void rotateRotors() {
+	   int position3 = rotor3.getRotorPosition();
+	   int position2 = rotor2.getRotorPosition();
+	   int position1 = rotor1.getRotorPosition();
+
+	   if (position3<25) {
+		   rotor3.setRotorPosition(position3+1);
+		   comboBox3.getSelectionModel().select(rotor3.getRotorPosition());
+	   }
+	   else {
+		   rotor3.setRotorPosition(0);
+		   comboBox3.getSelectionModel().select(rotor3.getRotorPosition());
+		   if (position2<25) {
+			   rotor2.setRotorPosition(position2+1);
+			   comboBox2.getSelectionModel().select(rotor2.getRotorPosition());
+		   }
+		   else {
+			   rotor2.setRotorPosition(0);
+			   comboBox2.getSelectionModel().select(rotor2.getRotorPosition());
+			   if (position1<25) {
+				   rotor1.setRotorPosition(position1+1);
+				   comboBox1.getSelectionModel().select(rotor1.getRotorPosition());
+			   }
+			   else {
+				   rotor1.setRotorPosition(0);
+				   comboBox1.getSelectionModel().select(rotor1.getRotorPosition());
+			   }
+		   }
+		   
+	   }  
+   }
+   void runEnigma (int input) {
+	   if (rotor1!=null && rotor2!=null && rotor3!=null) {
+		   int value = input;
+		   value = rotor3.returnValueForward(value);
+		   value = rotor2.returnValueForward(value);
+		   value = rotor1.returnValueForward(value);
+		   value = reflector.returnValue(value);
+		   value = rotor1.returnValueBackward(value);
+		   value = rotor2.returnValueBackward(value);
+		   value = rotor3.returnValueBackward(value);
+		   String code = numberToLetter(value);
+		   System.out.print(code);
+		   rotateRotors();
+	   }
    }
 
     public static void main(String[] args) {
