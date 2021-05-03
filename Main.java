@@ -371,7 +371,7 @@ public class Main extends Application {
 		   rotor1.setRotorPosition(pos1);
 		   rotor2.setRotorPosition(pos2);
 		   rotor3.setRotorPosition(pos3);
-		   l1.setText(l1.getText()+"\nPozycja startowa wirników: "+pos1+" "+pos2+" "+pos3+"\n");
+		   l1.setText(l1.getText()+"Pozycja startowa wirników: "+pos1+" "+pos2+" "+pos3+"\n");
 	   }
 	   else {
 		   l1.setText(l1.getText()+"Nie ustawiono pozycji wirników. Nie można rozpocząć.\n");
