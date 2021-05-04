@@ -3,7 +3,6 @@ package application;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -28,6 +27,7 @@ import javafx.scene.control.ButtonType;
 import javafx.geometry.Pos;
 
 
+
 public class Main extends Application {
 
     Scene scene, scene2;
@@ -37,40 +37,45 @@ public class Main extends Application {
     ComboBox<String> comboBox2;
     ComboBox<String> comboBox3;
     ObservableList <Node> lista;
-    
+
     RadioButton firstRotor1;
     RadioButton firstRotor2;
     RadioButton firstRotor3;
     RadioButton firstRotor4;
     RadioButton firstRotor5;
-    
+
     RadioButton secondRotor1;
     RadioButton secondRotor2;
     RadioButton secondRotor3;
     RadioButton secondRotor4;
     RadioButton secondRotor5;
-    
+
     RadioButton thirdRotor1;
     RadioButton thirdRotor2;
     RadioButton thirdRotor3;
     RadioButton thirdRotor4;
     RadioButton thirdRotor5;
-    
+
     RadioButton reflector1;
     RadioButton reflector2;
-    
+
     int first=0, second=0, third=0;
     int pos1=0, pos2=0, pos3=0;
     int ref=0;
-    
+
     Rotor rotor1;
     Rotor rotor2;
     Rotor rotor3;
-    
+
     Reflector reflector;
-    
+
     Label l1;
     TextArea input;
+    Label l2;
+
+    CablePane layout;
+    int value;
+    int c1, c2, c3, c4, c5, c6;
 
     @Override
     public void start(Stage stage) {
@@ -78,8 +83,8 @@ public class Main extends Application {
         scene = new Scene(new Group(), 880, 600);
         //scene.getStylesheets().add("./test.css");
 
-        ObservableList<String> options = 
-        FXCollections.observableArrayList();
+        ObservableList<String> options =
+                FXCollections.observableArrayList();
         for(int ii=0; ii<26; ii++){
             int num =65+ii;
             String str=Character.toString((char)num);
@@ -88,26 +93,29 @@ public class Main extends Application {
         comboBox1 = new ComboBox<String>(options);
         comboBox1.getSelectionModel().selectFirst();
         comboBox1.setOnAction(e->{
-        	pos1 = comboBox1.getSelectionModel().getSelectedIndex();
+            pos1 = comboBox1.getSelectionModel().getSelectedIndex();
         });
         comboBox2 = new ComboBox<String>(options);
         comboBox2.getSelectionModel().selectFirst();
         comboBox2.setOnAction(e->{
-        	pos2 = comboBox2.getSelectionModel().getSelectedIndex();
+            pos2 = comboBox2.getSelectionModel().getSelectedIndex();
         });
         comboBox3 = new ComboBox<String>(options);
         comboBox3.getSelectionModel().selectFirst();
         comboBox3.setOnAction(e->{
-        	pos3 = comboBox3.getSelectionModel().getSelectedIndex();
+            pos3 = comboBox3.getSelectionModel().getSelectedIndex();
         });
 
         l1 =new Label("Wybierz i zatwierdź ustawienia Enigmy aby rozpocząć.");
         l1.setPrefWidth(400);
+        l2=new Label("");
+        l2.setPrefWidth(400);
         //lista etykiet
         lista = FXCollections.observableArrayList();
         for(int i=0; i<26; i++){
             lista.add(new Label (options.get(i)));
         }
+
 
         //Tworzenie menu
         Menu menu = new Menu("Menu");
@@ -116,16 +124,16 @@ public class Main extends Application {
         MenuItem menuItem2 = new MenuItem("Zapisz");
         MenuItem menuItem3 = new MenuItem("Reset");
         menuItem3.setOnAction(e->{
-        	firstRotor1.setSelected(true);
-        	secondRotor1.setSelected(true);
-        	thirdRotor1.setSelected(true);
-        	reflector1.setSelected(true);
-        	comboBox1.getSelectionModel().selectFirst();
-        	comboBox2.getSelectionModel().selectFirst();
-        	comboBox3.getSelectionModel().selectFirst();
-        	input.setText("");
-        	input.setPromptText("Tu wpisz tekst");
-        	l1.setText("Wybierz i zatwierdź ustawienia Enigmy aby rozpocząć.");
+            firstRotor1.setSelected(true);
+            secondRotor1.setSelected(true);
+            thirdRotor1.setSelected(true);
+            reflector1.setSelected(true);
+            comboBox1.getSelectionModel().selectFirst();
+            comboBox2.getSelectionModel().selectFirst();
+            comboBox3.getSelectionModel().selectFirst();
+            input.setText("");
+            input.setPromptText("Tu wpisz tekst");
+            l1.setText("Wybierz i zatwierdź ustawienia Enigmy aby rozpocząć.");
         });
         MenuItem menuItem4 = new MenuItem("English");
         menu.getItems().add(menuItem1);
@@ -153,7 +161,7 @@ public class Main extends Application {
         firstRotor5 = new RadioButton("V");
         firstRotor5.setOnAction(e->first=4);
         firstRotor5.setToggleGroup(group);
-   	 
+
         final ToggleGroup group2 = new ToggleGroup();
         secondRotor1 = new RadioButton("I");
         secondRotor1.setOnAction(e->second=0);
@@ -171,7 +179,7 @@ public class Main extends Application {
         secondRotor5 = new RadioButton("V");
         secondRotor5.setOnAction(e->second=4);
         secondRotor5.setToggleGroup(group2);
-   	 
+
         final ToggleGroup group3 = new ToggleGroup();
         thirdRotor1 = new RadioButton("I");
         thirdRotor1.setOnAction(e->third=0);
@@ -189,7 +197,7 @@ public class Main extends Application {
         thirdRotor5 = new RadioButton("V");
         thirdRotor5.setOnAction(e->third=4);
         thirdRotor5.setToggleGroup(group3);
-        
+
         final ToggleGroup group4 = new ToggleGroup();
         reflector1 = new RadioButton("B");
         reflector1.setOnAction(e->ref=0);
@@ -199,17 +207,39 @@ public class Main extends Application {
         reflector2.setOnAction(e->ref=1);
         reflector2.setToggleGroup(group4);
 
-    	Button button = new Button("Łącznica kablowa");
-    	button.setOnAction(e->stage.setScene(scene2));
-    	CablePane layout = new CablePane(100, 100);
+        Button button = new Button("Łcznica kablowa");
+        button.setOnAction(e->stage.setScene(scene2));
+        layout = new CablePane(100, 100);
 
         layout.back.setOnAction(e->stage.setScene(scene));
-        scene2=new Scene(layout, 200, 200);
-    	
-    	Button button2 = new Button("Zatwierdź wirniki");
-    	button2.setOnAction(e->validateRotors());
+        layout.check.setOnAction(new EventHandler<ActionEvent>() {
 
-    	GridPane masterGrid =new GridPane();
+            public void handle(ActionEvent e) {
+                if (layout.correctConnection()){
+                    Alert alert1= new Alert(Alert.AlertType.INFORMATION,
+                            "Połączenie w łącznicy kablowej jest poprawne");
+                    alert1.show();
+                    c1=letterToNumber(layout.comboBox1.getValue());
+                    c2=letterToNumber(layout.comboBox2.getValue());
+                    c3=letterToNumber(layout.comboBox3.getValue());
+                    c4=letterToNumber(layout.comboBox4.getValue());
+                    c5=letterToNumber(layout.comboBox5.getValue());
+                    c6=letterToNumber(layout.comboBox6.getValue());
+                }
+                else{
+                    Alert alert2 = new Alert(Alert.AlertType.WARNING,
+                            "Połączenie w łącznicy kablowej jest niepoprawne, kodowanie nie odbędzie się");
+                    alert2.show();
+                }
+
+            }
+        });
+        scene2=new Scene(layout, 200, 200);
+
+        Button button2 = new Button("Zatwierdź wirniki");
+        button2.setOnAction(e->validateRotors());
+
+        GridPane masterGrid =new GridPane();
         GridPane grid =new GridPane();
         grid.setPadding(new Insets(10,10,10,10));
         GridPane grid1 =new GridPane();
@@ -220,18 +250,18 @@ public class Main extends Application {
         GridPane gridRotors = new GridPane();
         GridPane gridFirstRotor = new GridPane();
         gridFirstRotor.setPadding(new Insets(10,10,10,10));
-    	GridPane gridSecondRotor = new GridPane();
-    	gridSecondRotor.setPadding(new Insets(10,10,10,10));
-    	GridPane gridThirdRotor = new GridPane();
-    	gridThirdRotor.setPadding(new Insets(10,10,10,10));
-    	GridPane gridReflector = new GridPane();
-    	gridReflector.setPadding(new Insets(10,10,10,10));
+        GridPane gridSecondRotor = new GridPane();
+        gridSecondRotor.setPadding(new Insets(10,10,10,10));
+        GridPane gridThirdRotor = new GridPane();
+        gridThirdRotor.setPadding(new Insets(10,10,10,10));
+        GridPane gridReflector = new GridPane();
+        gridReflector.setPadding(new Insets(10,10,10,10));
         FlowPane keyTop =new FlowPane();
         FlowPane keyMiddle = new FlowPane();
         FlowPane keyBottom =new FlowPane();
-   
+
         masterGrid.add(menuBar, 0, 0);
-    	masterGrid.add(grid, 0, 1);
+        masterGrid.add(grid, 0, 1);
         grid.add(grid1, 0, 0);
         grid.add(grid2, 1, 0);
         grid1.add(flowComboBox, 0, 0);
@@ -243,14 +273,17 @@ public class Main extends Application {
         input =new TextArea();
         input.setPromptText("Tu wpisz tekst");
         input.setOnKeyTyped(e->{
-        	int letter = letterToNumber(e.getCharacter());
-        	runEnigma(letter);
+
+            int letter = letterToNumber(e.getCharacter());
+            int s =switchLetters(letter);
+            runEnigma(s);
         });
         input.setPrefWidth(400);
         input.setPrefHeight(300);
         input.getStyleClass().add("text-input");
         grid2.add(input, 0, 0);
         grid2.add(l1, 0, 1);
+        grid2.add(l2, 0, 2);
         flowComboBox.setHgap(50);
         flowComboBox.setAlignment(Pos.CENTER);
 
@@ -300,28 +333,29 @@ public class Main extends Application {
         keyBottom.getChildren().add(lista.get(13));
         keyBottom.getChildren().add(lista.get(12));
 
+
         gridFirstRotor.add(firstRotor1, 0, 0);
-    	gridFirstRotor.add(firstRotor2, 1, 0);
-    	gridFirstRotor.add(firstRotor3, 2, 0);
-    	gridFirstRotor.add(firstRotor4, 3, 0);
-    	gridFirstRotor.add(firstRotor5, 4, 0);
-   	 
-    	gridSecondRotor.add(secondRotor1, 0, 0);
-    	gridSecondRotor.add(secondRotor2, 1, 0);
-    	gridSecondRotor.add(secondRotor3, 2, 0);
-    	gridSecondRotor.add(secondRotor4, 3, 0);
-    	gridSecondRotor.add(secondRotor5, 4, 0);
-   	 
-    	gridThirdRotor.add(thirdRotor1, 0, 0);
-    	gridThirdRotor.add(thirdRotor2, 1, 0);
-    	gridThirdRotor.add(thirdRotor3, 2, 0);
-    	gridThirdRotor.add(thirdRotor4, 3, 0);
-    	gridThirdRotor.add(thirdRotor5, 4, 0);
-    	
-    	gridReflector.add(reflector1, 0, 0);
-    	gridReflector.add(reflector2, 1, 0);
-   	 
-    	gridRotors.add(new Label("Wirnik 1"), 0, 0);
+        gridFirstRotor.add(firstRotor2, 1, 0);
+        gridFirstRotor.add(firstRotor3, 2, 0);
+        gridFirstRotor.add(firstRotor4, 3, 0);
+        gridFirstRotor.add(firstRotor5, 4, 0);
+
+        gridSecondRotor.add(secondRotor1, 0, 0);
+        gridSecondRotor.add(secondRotor2, 1, 0);
+        gridSecondRotor.add(secondRotor3, 2, 0);
+        gridSecondRotor.add(secondRotor4, 3, 0);
+        gridSecondRotor.add(secondRotor5, 4, 0);
+
+        gridThirdRotor.add(thirdRotor1, 0, 0);
+        gridThirdRotor.add(thirdRotor2, 1, 0);
+        gridThirdRotor.add(thirdRotor3, 2, 0);
+        gridThirdRotor.add(thirdRotor4, 3, 0);
+        gridThirdRotor.add(thirdRotor5, 4, 0);
+
+        gridReflector.add(reflector1, 0, 0);
+        gridReflector.add(reflector2, 1, 0);
+
+        gridRotors.add(new Label("Wirnik 1"), 0, 0);
         gridRotors.add(gridFirstRotor, 0, 1);
         gridRotors.add(new Label("Wirnik 2"), 0, 2);
         gridRotors.add(gridSecondRotor, 0, 3);
@@ -335,121 +369,163 @@ public class Main extends Application {
         gridAnimation.add(new Label("Tu będą animacje"), 0, 0);
 
         stage.setOnCloseRequest(e->{
-   		 e.consume();
-   		 closeProgram();
-    	});
-       
+            e.consume();
+            closeProgram();
+        });
+
         Group root = (Group)scene.getRoot();
         root.getChildren().add(masterGrid);
         stage.setScene(scene);
         stage.setTitle("Enigma");
         stage.show();
     }
-   private void closeProgram() {
-   	 Alert alert = new Alert(AlertType.CONFIRMATION, "Czy na pewno chcesz zamknąć okno?", ButtonType.YES, ButtonType.NO);
-   	 alert.showAndWait();
+    private void closeProgram() {
+        Alert alert = new Alert(AlertType.CONFIRMATION, "Czy na pewno chcesz zamknąć okno?", ButtonType.YES, ButtonType.NO);
+        alert.showAndWait();
 
-   	 if (alert.getResult() == ButtonType.YES) {
-   	 	stage1.close();
-   	 }
-   }
+        if (alert.getResult() == ButtonType.YES) {
+            stage1.close();
+        }
+    }
 
-   void chooseRotors() {
-	   if (first!=second && second!=third && third!=first) {
-		   rotor1 = new Rotor(first);
-		   rotor2 = new Rotor(second);
-		   rotor3 = new Rotor(third);
-		   reflector = new Reflector(ref);
-		   l1.setText("Ustawienie wirników przebielgo prawidłowo.\n");
-	   }
-	   else {
-		   l1.setText("Conajmniej dwa wybrane wirniki są takie same. Nie można rozpocząć.\n");
-	   }
-   }
-   void setRotorPositions () {
-	   if (rotor1!=null && rotor2!=null && rotor3!=null) {
-		   rotor1.setRotorPosition(pos1);
-		   rotor2.setRotorPosition(pos2);
-		   rotor3.setRotorPosition(pos3);
-		   l1.setText(l1.getText()+"Pozycja startowa wirników: "+pos1+" "+pos2+" "+pos3+"\n");
-	   }
-	   else {
-		   l1.setText(l1.getText()+"Nie ustawiono pozycji wirników. Nie można rozpocząć.\n");
-	   }
-   }
-   
-   public int letterToNumber (String s){
-       char c= s.charAt(0);
-       int num = c;
-       if(num>64 && num<91){
-           num = num-65;      
-       }
-       if(num>96 && num<123){
-           num= num-97;
-       }
-       return num;
-   }
-   
-   public String numberToLetter (int n) {
-	n=n+65;
-	String s = Character.toString((char) n);
+
+
+    void chooseRotors() {
+        if (first!=second && second!=third && third!=first) {
+            rotor1 = new Rotor(first);
+            rotor2 = new Rotor(second);
+            rotor3 = new Rotor(third);
+            reflector = new Reflector(ref);
+            l1.setText("Ustawienie wirników przebielgo prawidłowo.\n");
+        }
+        else {
+            l1.setText("Conajmniej dwa wybrane wirniki są takie same. Nie można rozpocząć.\n");
+        }
+    }
+    void setRotorPositions () {
+        if (rotor1!=null && rotor2!=null && rotor3!=null) {
+            rotor1.setRotorPosition(pos1);
+            rotor2.setRotorPosition(pos2);
+            rotor3.setRotorPosition(pos3);
+            l1.setText(l1.getText()+"\n Pozycja startowa wirników: "+pos1+" "+pos2+" "+pos3 +"\n");
+        }
+        else {
+            l1.setText(l1.getText()+"Nie ustawiono pozycji wirników. Nie można rozpocząć.\n");
+        }
+    }
+
+    public int letterToNumber (String s){
+        char c= s.charAt(0);
+        int num = c;
+        if(num>64 && num<91){
+            num = num-65;
+        }
+        if(num>96 && num<123){
+            num= num-97;
+        }
+        return num;
+    }
+
+    public String numberToLetter (int n) {
+        n=n+97;
+        String s = Character.toString((char) n);
         return s;
-   }
-   
-   void validateRotors () {
-	   chooseRotors();
-	   setRotorPositions();
-   }
-   
-   void rotateRotors() {
-	   int position3 = rotor3.getRotorPosition();
-	   int position2 = rotor2.getRotorPosition();
-	   int position1 = rotor1.getRotorPosition();
+    }
 
-	   if (position3<25) {
-		   rotor3.setRotorPosition(position3+1);
-		   comboBox3.getSelectionModel().select(rotor3.getRotorPosition());
-	   }
-	   else {
-		   rotor3.setRotorPosition(0);
-		   comboBox3.getSelectionModel().select(rotor3.getRotorPosition());
-		   if (position2<25) {
-			   rotor2.setRotorPosition(position2+1);
-			   comboBox2.getSelectionModel().select(rotor2.getRotorPosition());
-		   }
-		   else {
-			   rotor2.setRotorPosition(0);
-			   comboBox2.getSelectionModel().select(rotor2.getRotorPosition());
-			   if (position1<25) {
-				   rotor1.setRotorPosition(position1+1);
-				   comboBox1.getSelectionModel().select(rotor1.getRotorPosition());
-			   }
-			   else {
-				   rotor1.setRotorPosition(0);
-				   comboBox1.getSelectionModel().select(rotor1.getRotorPosition());
-			   }
-		   }
-		   
-	   }  
-   }
-   void runEnigma (int input) {
-	   if (rotor1!=null && rotor2!=null && rotor3!=null) {
-		   int value = input;
-		   value = rotor3.returnValueForward(value);
-		   value = rotor2.returnValueForward(value);
-		   value = rotor1.returnValueForward(value);
-		   value = reflector.returnValue(value);
-		   value = rotor1.returnValueBackward(value);
-		   value = rotor2.returnValueBackward(value);
-		   value = rotor3.returnValueBackward(value);
-		   String code = numberToLetter(value);
-		   l1.setText(l1.getText()+code);
-		   rotateRotors();
-	   }
-   }
+    void validateRotors () {
+        chooseRotors();
+        setRotorPositions();
+    }
+
+    void rotateRotors() {
+        int position3 = rotor3.getRotorPosition();
+        int position2 = rotor2.getRotorPosition();
+        int position1 = rotor1.getRotorPosition();
+
+        if (position3<25) {
+            rotor3.setRotorPosition(position3+1);
+            comboBox3.getSelectionModel().select(rotor3.getRotorPosition());
+        }
+        else {
+            rotor3.setRotorPosition(0);
+            comboBox3.getSelectionModel().select(rotor3.getRotorPosition());
+            if (position2<25) {
+                rotor2.setRotorPosition(position2+1);
+                comboBox2.getSelectionModel().select(rotor2.getRotorPosition());
+            }
+            else {
+                rotor2.setRotorPosition(0);
+                comboBox2.getSelectionModel().select(rotor2.getRotorPosition());
+                if (position1<25) {
+                    rotor1.setRotorPosition(position1+1);
+                    comboBox1.getSelectionModel().select(rotor1.getRotorPosition());
+                }
+                else {
+                    rotor1.setRotorPosition(0);
+                    comboBox1.getSelectionModel().select(rotor1.getRotorPosition());
+                }
+            }
+
+        }
+    }
+    void runEnigma (int input) {
+
+        if (rotor1!=null && rotor2!=null && rotor3!=null) {
+
+            value = input;
+            value = rotor3.returnValueForward(value);
+            value = rotor2.returnValueForward(value);
+            value = rotor1.returnValueForward(value);
+            value = reflector.returnValue(value);
+            value = rotor1.returnValueBackward(value);
+            value = rotor2.returnValueBackward(value);
+            value = rotor3.returnValueBackward(value);
+            value=switchLetters(value);
+            String code = numberToLetter(value);
+
+            rotateRotors();
+            light(value);
+            l1.setText(l1.getText()+code);
+            dim(value);
+
+        }
+    }
+   
+    void light(int a){
+        lista.get(a).setStyle("-fx-text-fill: #FFFF00;");
+    }
+    void dim(int a){
+        lista.get(a).setStyle("-fx-text-fill: #000000;");
+    }
+    int switchLetters(int s){
+        if(s==c1){
+            return c2;
+        }
+        if(s==c2){
+            return c1;
+        }
+        if(s==c3){
+            return c4;
+        }
+        if(s==c4){
+            return c3;
+        }
+        if(s==c5){
+            return c6;
+        }
+        if(s==c6){
+            return c5;
+        }
+        else{
+            return s;
+        }
+
+    }
+
+
 
     public static void main(String[] args) {
         launch();
     }
 
-}
+
