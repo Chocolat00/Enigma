@@ -1,6 +1,7 @@
 
 package application;
 
+//Autor: Katarzyna Stojek
 public class Rotor {
 	String encoding;
 	protected int[] forwardWiring;

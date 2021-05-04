@@ -28,7 +28,7 @@ import javafx.scene.control.ButtonType;
 import javafx.geometry.Pos;
 
 
-public class Main extends Application implements EventHandler<ActionEvent> {
+public class Main extends Application {
 
     Scene scene, scene2;
     Stage stage1;
@@ -75,13 +75,13 @@ public class Main extends Application implements EventHandler<ActionEvent> {
     @Override
     public void start(Stage stage) {
         stage1 = stage;
-        scene = new Scene(new Group(), 920, 600);
+        scene = new Scene(new Group(), 880, 600);
         //scene.getStylesheets().add("./test.css");
 
         ObservableList<String> options = 
         FXCollections.observableArrayList();
-        for(int i=0; i<26; i++){
-            int num =65+i;
+        for(int ii=0; ii<26; ii++){
+            int num =65+ii;
             String str=Character.toString((char)num);
             options.add(str);
         }
@@ -109,82 +109,97 @@ public class Main extends Application implements EventHandler<ActionEvent> {
             lista.add(new Label (options.get(i)));
         }
 
-
         //Tworzenie menu
         Menu menu = new Menu("Menu");
         //Dodanie pozycji menu
-        menu.getItems().add(new MenuItem("Wczytaj z pliku"));
-        menu.getItems().add(new MenuItem("Zapisz"));
-        menu.getItems().add(new MenuItem("Reset"));
-        menu.getItems().add(new MenuItem("English"));
+        MenuItem menuItem1 = new MenuItem("Wczytaj z pliku");
+        MenuItem menuItem2 = new MenuItem("Zapisz");
+        MenuItem menuItem3 = new MenuItem("Reset");
+        menuItem3.setOnAction(e->{
+        	firstRotor1.setSelected(true);
+        	secondRotor1.setSelected(true);
+        	thirdRotor1.setSelected(true);
+        	reflector1.setSelected(true);
+        	comboBox1.getSelectionModel().selectFirst();
+        	comboBox2.getSelectionModel().selectFirst();
+        	comboBox3.getSelectionModel().selectFirst();
+        	input.setText("");
+        	input.setPromptText("Tu wpisz tekst");
+        	l1.setText("Wybierz i zatwierdź ustawienia Enigmy aby rozpocząć.");
+        });
+        MenuItem menuItem4 = new MenuItem("English");
+        menu.getItems().add(menuItem1);
+        menu.getItems().add(menuItem2);
+        menu.getItems().add(menuItem3);
+        menu.getItems().add(menuItem4);
         //Dodanie do paska
         MenuBar menuBar = new MenuBar();
         menuBar.getMenus().add(menu);
 
         final ToggleGroup group = new ToggleGroup();
         firstRotor1 = new RadioButton("I");
-        firstRotor1.setOnAction(this);
+        firstRotor1.setOnAction(e->first=0);
         firstRotor1.setToggleGroup(group);
         firstRotor1.setSelected(true);
         firstRotor2 = new RadioButton("II");
-        firstRotor2.setOnAction(this);
+        firstRotor2.setOnAction(e->first=1);
         firstRotor2.setToggleGroup(group);
         firstRotor3 = new RadioButton("III");
-        firstRotor3.setOnAction(this);
+        firstRotor3.setOnAction(e->first=2);
         firstRotor3.setToggleGroup(group);
         firstRotor4 = new RadioButton("IV");
-        firstRotor4.setOnAction(this);
+        firstRotor4.setOnAction(e->first=3);
         firstRotor4.setToggleGroup(group);
         firstRotor5 = new RadioButton("V");
-        firstRotor5.setOnAction(this);
+        firstRotor5.setOnAction(e->first=4);
         firstRotor5.setToggleGroup(group);
    	 
         final ToggleGroup group2 = new ToggleGroup();
         secondRotor1 = new RadioButton("I");
-        secondRotor1.setOnAction(this);
+        secondRotor1.setOnAction(e->second=0);
         secondRotor1.setToggleGroup(group2);
         secondRotor1.setSelected(true);
         secondRotor2 = new RadioButton("II");
-        secondRotor2.setOnAction(this);
+        secondRotor2.setOnAction(e->second=1);
         secondRotor2.setToggleGroup(group2);
         secondRotor3 = new RadioButton("III");
-        secondRotor3.setOnAction(this);
+        secondRotor3.setOnAction(e->second=2);
         secondRotor3.setToggleGroup(group2);
         secondRotor4 = new RadioButton("IV");
-        secondRotor4.setOnAction(this);
+        secondRotor4.setOnAction(e->second=3);
         secondRotor4.setToggleGroup(group2);
         secondRotor5 = new RadioButton("V");
-        secondRotor5.setOnAction(this);
+        secondRotor5.setOnAction(e->second=4);
         secondRotor5.setToggleGroup(group2);
    	 
         final ToggleGroup group3 = new ToggleGroup();
         thirdRotor1 = new RadioButton("I");
-        thirdRotor1.setOnAction(this);
+        thirdRotor1.setOnAction(e->third=0);
         thirdRotor1.setToggleGroup(group3);
         thirdRotor1.setSelected(true);
         thirdRotor2 = new RadioButton("II");
-        thirdRotor2.setOnAction(this);
+        thirdRotor2.setOnAction(e->third=1);
         thirdRotor2.setToggleGroup(group3);
         thirdRotor3 = new RadioButton("III");
-        thirdRotor3.setOnAction(this);
+        thirdRotor3.setOnAction(e->third=2);
         thirdRotor3.setToggleGroup(group3);
         thirdRotor4 = new RadioButton("IV");
-        thirdRotor4.setOnAction(this);
+        thirdRotor4.setOnAction(e->third=3);
         thirdRotor4.setToggleGroup(group3);
         thirdRotor5 = new RadioButton("V");
-        thirdRotor5.setOnAction(this);
+        thirdRotor5.setOnAction(e->third=4);
         thirdRotor5.setToggleGroup(group3);
         
         final ToggleGroup group4 = new ToggleGroup();
         reflector1 = new RadioButton("B");
-        reflector1.setOnAction(this);
+        reflector1.setOnAction(e->ref=0);
         reflector1.setToggleGroup(group4);
         reflector1.setSelected(true);
         reflector2 = new RadioButton("C");
-        reflector2.setOnAction(this);
+        reflector2.setOnAction(e->ref=1);
         reflector2.setToggleGroup(group4);
 
-    	Button button = new Button("Łcznica kablowa");
+    	Button button = new Button("Łącznica kablowa");
     	button.setOnAction(e->stage.setScene(scene2));
     	CablePane layout = new CablePane(100, 100);
 
@@ -285,7 +300,6 @@ public class Main extends Application implements EventHandler<ActionEvent> {
         keyBottom.getChildren().add(lista.get(13));
         keyBottom.getChildren().add(lista.get(12));
 
-
         gridFirstRotor.add(firstRotor1, 0, 0);
     	gridFirstRotor.add(firstRotor2, 1, 0);
     	gridFirstRotor.add(firstRotor3, 2, 0);
@@ -339,65 +353,7 @@ public class Main extends Application implements EventHandler<ActionEvent> {
    	 	stage1.close();
    	 }
    }
-   
-	@Override
-	public void handle(ActionEvent event) {
-		if (event.getSource()==firstRotor1) {
-			first=0;
-		}
-		if (event.getSource()==firstRotor2) {
-			first=1;
-		}
-		if (event.getSource()==firstRotor3) {
-			first=2;
-		}
-		if (event.getSource()==firstRotor4) {
-			first=3;
-		}
-		if (event.getSource()==firstRotor5) {
-			first=4;
-		}
-		
-		if (event.getSource()==secondRotor1) {
-			second=0;
-		}
-		if (event.getSource()==secondRotor2) {
-			second=1;
-		}
-		if (event.getSource()==secondRotor3) {
-			second=2;
-		}
-		if (event.getSource()==secondRotor4) {
-			second=3;
-		}
-		if (event.getSource()==secondRotor5) {
-			second=4;
-		}
-		
-		if (event.getSource()==thirdRotor1) {
-			third=0;
-		}
-		if (event.getSource()==thirdRotor2) {
-			third=1;
-		}
-		if (event.getSource()==thirdRotor3) {
-			third=2;
-		}
-		if (event.getSource()==thirdRotor4) {
-			third=3;
-		}
-		if (event.getSource()==thirdRotor5) {
-			third=4;
-		}
-		
-		if (event.getSource()==reflector1) {
-			ref=0;
-		}
-		if (event.getSource()==reflector2) {
-			ref=1;
-		}
-	}
-   
+
    void chooseRotors() {
 	   if (first!=second && second!=third && third!=first) {
 		   rotor1 = new Rotor(first);
@@ -407,7 +363,7 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 		   l1.setText("Ustawienie wirników przebielgo prawidłowo.\n");
 	   }
 	   else {
-		   l1.setText("Conajmniej dwa wybrane wirniki są takie same. Nie można rozpocząć.");
+		   l1.setText("Conajmniej dwa wybrane wirniki są takie same. Nie można rozpocząć.\n");
 	   }
    }
    void setRotorPositions () {
@@ -415,33 +371,29 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 		   rotor1.setRotorPosition(pos1);
 		   rotor2.setRotorPosition(pos2);
 		   rotor3.setRotorPosition(pos3);
-		   l1.setText(l1.getText()+"\nPozycja startowa wirników: "+pos1+" "+pos2+" "+pos3);
+		   l1.setText(l1.getText()+"Pozycja startowa wirników: "+pos1+" "+pos2+" "+pos3+"\n");
 	   }
 	   else {
-		   l1.setText(l1.getText()+"\nNie ustawiono pozycji wirników. Nie można rozpocząć.");
+		   l1.setText(l1.getText()+"Nie ustawiono pozycji wirników. Nie można rozpocząć.\n");
 	   }
    }
    
    public int letterToNumber (String s){
        char c= s.charAt(0);
        int num = c;
-
        if(num>64 && num<91){
-           num = num-65;
-           
+           num = num-65;      
        }
        if(num>96 && num<123){
            num= num-97;
-           
        }
        return num;
    }
    
    public String numberToLetter (int n) {
-	   n=n+65;
-	   String s = Character.toString((char) n);
-	   
-       return s;
+	n=n+65;
+	String s = Character.toString((char) n);
+        return s;
    }
    
    void validateRotors () {
@@ -491,7 +443,7 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 		   value = rotor2.returnValueBackward(value);
 		   value = rotor3.returnValueBackward(value);
 		   String code = numberToLetter(value);
-		   System.out.print(code);
+		   l1.setText(l1.getText()+code);
 		   rotateRotors();
 	   }
    }
