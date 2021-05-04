@@ -443,7 +443,7 @@ public class Main extends Application {
 		   value = rotor2.returnValueBackward(value);
 		   value = rotor3.returnValueBackward(value);
 		   String code = numberToLetter(value);
-		   l1.setText(l1.getText()+code);
+		   l2.setText(l1.getText()+code);
 		   rotateRotors();
 	   }
    }
