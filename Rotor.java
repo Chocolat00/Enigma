@@ -34,22 +34,22 @@ public class Rotor {
 	}
 	
 	protected static int[] getWiring(String encoding) {
-        char[] charWiring = encoding.toCharArray();
-        int[] wiring = new int[charWiring.length];
-        for (int i = 0; i < charWiring.length; i++) {
-            wiring[i] = charWiring[i] - 65;
+        char[] letterWiring = encoding.toCharArray();
+        int[] wiring = new int[letterWiring.length];
+        for (int i = 0; i < letterWiring.length; i++) {
+            wiring[i] = letterWiring[i] - 65;
         }
         return wiring;
-    }
+    	}
 	
-	protected static int[] backwardWiring(int[] wiring) {
-        int[] inverse = new int[wiring.length];
+	protected static int[] getBackwardWiring(int[] wiring) {
+        int[] backward = new int[wiring.length];
         for (int i = 0; i < wiring.length; i++) {
             int forward = wiring[i];
-            inverse[forward] = i;
+            backward[forward] = i;
         }
-        return inverse;
-    }
+        return backward;
+   	}
 	
 	void setRotorPosition (int pos) {
 		position = pos;
