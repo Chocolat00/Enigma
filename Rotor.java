@@ -29,11 +29,11 @@ public class Rotor {
 	    	break;
 	    }
 		
-		this.forwardWiring = decodeWiring(encoding);
-        this.backwardWiring = inverseWiring(this.forwardWiring);
+		this.forwardWiring = getWiring(encoding);
+        this.backwardWiring = backwardWiring(this.forwardWiring);
 	}
 	
-	protected static int[] decodeWiring(String encoding) {
+	protected static int[] getWiring(String encoding) {
         char[] charWiring = encoding.toCharArray();
         int[] wiring = new int[charWiring.length];
         for (int i = 0; i < charWiring.length; i++) {
@@ -42,7 +42,7 @@ public class Rotor {
         return wiring;
     }
 	
-	protected static int[] inverseWiring(int[] wiring) {
+	protected static int[] backwardWiring(int[] wiring) {
         int[] inverse = new int[wiring.length];
         for (int i = 0; i < wiring.length; i++) {
             int forward = wiring[i];
@@ -71,3 +71,4 @@ public class Rotor {
         return code(input, this.position, this.backwardWiring);
     }
 }
+
