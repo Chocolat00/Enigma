@@ -58,17 +58,13 @@ public class Rotor {
 	int getRotorPosition () {
 		return position;
 	}
-	
-	protected static int code(int input, int pos, int[] forewardWiring) {
-        return (forewardWiring[(input + pos) % 26] - pos + 26) % 26;
-    }
 
     public int returnValueForward(int input) {
-        return code(input, this.position, this.forwardWiring);
+        return (forwardWiring[(input + position) % 26] - position + 26) % 26;
     }
 
     public int returnValueBackward(int input) {
-        return code(input, this.position, this.backwardWiring);
+        return (backwardWiring[(input + position) % 26] - position + 26) % 26;
     }
 }
 
