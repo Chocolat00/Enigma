@@ -30,7 +30,7 @@ public class Rotor {
 	    }
 		
 		this.forwardWiring = getForwardWiring(wiring);
-        this.backwardWiring = getBackwardWiring(this.forwardWiring);
+        this.backwardWiring = getBackwardWiring(forwardWiring);
 	}
 	
 	protected static int[] getForwardWiring(String wiring) {
