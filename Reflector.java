@@ -1,4 +1,4 @@
-package application;
+package pl.edu.pw.fizyka.pojava.enigma;
 
 //Autor: Katarzyna Stojek
 public class Reflector {
