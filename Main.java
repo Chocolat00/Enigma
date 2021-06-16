@@ -234,13 +234,16 @@ public class Main extends Application {
                 language = "pl";
                 country = "PL";
             }
+            comboBox1.getSelectionModel().selectFirst();
+            comboBox2.getSelectionModel().selectFirst();
+            comboBox3.getSelectionModel().selectFirst();
             start(stage1);
         });
-        MenuItem menuItem5 = new MenuItem("Autorzy");
+        MenuItem menuItem5 = new MenuItem(labelsBundle.getString("menuAuthorsLabel"));
         menuItem5.setOnAction(e->{
             Alert alert= new Alert(AlertType.INFORMATION,
                     "Katarzyna Domańska \n Katarzyna Stojek");
-            alert.setTitle("Autorzy");
+            alert.setTitle(labelsBundle.getString("menuAuthorsLabel"));
             alert.show();
         });
         menu.getItems().add(menuItem1);
