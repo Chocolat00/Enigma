@@ -1,4 +1,4 @@
-package application;
+package pl.edu.pw.fizyka.pojava.enigma;
 
 import java.io.BufferedReader;
 import java.io.File;
