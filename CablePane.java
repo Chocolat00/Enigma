@@ -234,13 +234,7 @@ public class CablePane extends Pane {
 
                 }
                 else{
-                    for(int j=i+1; j<20; j++){
-
-                        if(lista.get(i).equals(lista.get(j))){
-                            lista.clear();
-                            return false;
-                        }
-                    }
+                    return false;
                 }
             }
             else{
