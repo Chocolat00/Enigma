@@ -1,3 +1,5 @@
+package pl.edu.pw.fizyka.pojava.enigma;
+
 import java.util.Locale;
 import java.util.ResourceBundle;
 
